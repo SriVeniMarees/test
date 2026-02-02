@@ -93,3 +93,32 @@ Submitted from: www.corcompliance.com
         });
     }
 }
+
+
+
+
+export default async function handler(req, res) {
+  // Only allow POST requests
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+
+  try {
+    const { name, company, phone, email, service } = req.body;
+
+    // Basic validation
+    if (!name || !email) {
+      return res.status(400).json({ message: 'Name and email are required' });
+    }
+
+    // Log form data (you can replace this with saving to DB or sending email)
+    console.log('Form submitted:', { name, company, phone, email, service });
+
+    // Success response
+    return res.status(200).json({ message: 'Form submitted successfully' });
+  } catch (err) {
+    console.error('Error submitting form:', err);
+    return res.status(500).json({ message: 'Internal server error. Please try again later.' });
+  }
+}
+
